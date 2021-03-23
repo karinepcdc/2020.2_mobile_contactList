@@ -1,5 +1,5 @@
 Class Contact {
-  ///
+  /// define uma tabela no banco de dados sql para armazernar contatos
   static final String contactTable = "contactTable";
   static final String idColumn = "idColumn";
   static final String nameColumn = "nameColumn";
@@ -28,6 +28,19 @@ Class Contact {
 
   // Gera um mapa apartir do objeto contact
   Map toMap() {
-    Map<String, dynamic> map = {}
+    Map<String, dynamic> map = {
+      nameColumn: name,
+      emailColumn: email,
+      phoneColumn: phone,
+      imgColumn: img
+    };
+    if(id != null) map[idColumn] = id;
+
+    return map;
+  }
+
+  @override
+  String toString() {
+    return "Contact(id: ${id}, name: ${name}, email: ${email}, phone: ${phone}, img: ${img})";
   }
 }
