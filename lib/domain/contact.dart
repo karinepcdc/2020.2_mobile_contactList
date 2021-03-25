@@ -1,4 +1,4 @@
-Class Contact {
+class Contact {
   /// define uma tabela no banco de dados sql para armazernar contatos
   static final String contactTable = "contactTable";
   static final String idColumn = "idColumn";
@@ -7,7 +7,6 @@ Class Contact {
   static final String emailColumn = "emailColumn";
   static final String imgColumn = "imgColumn";
 
-  
   int id; // id unico para registro no banco de dados
   String name;
   String email;
@@ -24,7 +23,7 @@ Class Contact {
     email = map[emailColumn];
     phone = map[phoneColumn];
     img = map[imgColumn];
-  };
+  }
 
   // Gera um mapa apartir do objeto contact
   Map toMap() {
@@ -34,7 +33,7 @@ Class Contact {
       phoneColumn: phone,
       imgColumn: img
     };
-    if(id != null) map[idColumn] = id;
+    if (id != null) map[idColumn] = id;
 
     return map;
   }

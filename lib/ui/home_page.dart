@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_contatos/domain/contact.dart';
 
 enum OrderOptions { orederAz, orederZa } // enum para opções de ordenação
 
