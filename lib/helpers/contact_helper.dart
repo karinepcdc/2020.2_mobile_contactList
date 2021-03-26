@@ -33,11 +33,11 @@ class ContactHelper {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE ${Contact.contactTable}(${Contact.idColumn} INTEGER PRIMARY KEY, "
-          "                                 ${Contact.nameColumn} TEXT, "
-          "                                 ${Contact.emailColumn} TEXT, "
-          "                                 ${Contact.phoneColumn} TEXT, "
-          "                                 ${Contact.imgColumn} TEXT) ");
+          "CREATE TABLE ${Contact.contactTable} (${Contact.idColumn}    INTEGER PRIMARY KEY, "
+          "                                      ${Contact.nameColumn}  TEXT, "
+          "                                      ${Contact.emailColumn} TEXT, "
+          "                                      ${Contact.phoneColumn} TEXT, "
+          "                                      ${Contact.imgColumn}   TEXT) ");
     });
   }
 
@@ -64,5 +64,42 @@ class ContactHelper {
       return Contact.fromMap(maps.first);
     else
       return null;
+  }
+
+  // return the number of changes made
+  Future<int> updateContact(Contact c) async {
+    Database dbContact = await db;
+    return await dbContact.update(Contact.contactTable, c.toMap(),
+        where: "${Contact.idColumn} = ?", whereArgs: [c.id]);
+  }
+
+  Future<int> deleteContact(int id) async {
+    Database dbContact = await db;
+    return await dbContact.delete(Contact.contactTable,
+        where: '{Contact.idColumn} = ?', whereArgs: [id]);
+  }
+
+  Future<List> getAllContact() async {
+    Database dbContact = await db;
+    List<Contact> listContact = [];
+    List listMap = await dbContact.query(Contact.contactTable);
+
+    for (Map m in listMap) {
+      listContact.add(Contact.fromMap(m));
+    }
+    return listContact;
+  }
+
+  // Return number of contacts registered???
+  Future<int> getNumber() async {
+    Database dbContact = await db;
+    int count = Sqflite.firstIntValue(await dbContact
+        .rawQuery('SELECT COUNT(*) FROM ${Contact.contactTable}'));
+    return count;
+  }
+
+  Future close() async {
+    Database dbContact = await db;
+    await dbContact.close();
   }
 }
